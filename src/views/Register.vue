@@ -1,25 +1,36 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
       <span class="card-title">Home accounting</span>
       <div class="input-field">
-        <input id="email" type="text">
+        <input id="email" type="text"
+        v-model.trim="email" :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}">
         <label for="email">Email</label>
-        <small class="helper-text invalid">Enter your email</small>
+        <small v-if="$v.email.$dirty && !$v.email.required"
+        class="helper-text invalid">The field 'Email' cannot be null.</small>
+        <small v-else-if="$v.email.$dirty && !$v.email.email"
+        class="helper-text invalid">Enter the correct email.</small>
       </div>
       <div class="input-field">
-        <input id="password" type="password" class="validate">
+        <input id="password" type="password"
+        v-model.trim="password" :class="{invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}">
         <label for="password">Password</label>
-        <small class="helper-text invalid">Enter your password</small>
+        <small v-if="$v.password.$dirty && !$v.password.required"
+        class="helper-text invalid">The field 'Password' cannot be null.</small>
+        <small v-else-if="$v.password.$dirty && !$v.password.minLength"
+        class="helper-text invalid">Password length can be {{$v.password.$params.minLength.min}} symbols. Current password length: {{password.length}}</small>
       </div>
       <div class="input-field">
-        <input id="name" type="text" class="validate">
+        <input id="name" type="text"
+        v-model.trim="name" :class="{invalid: ($v.name.$dirty && !$v.name.required)}">
         <label for="name">Name</label>
-        <small class="helper-text invalid">Enter your name</small>
+        <small v-if="$v.name.$dirty && !$v.name.required"
+        class="helper-text invalid">The field 'Name' cannot be null.</small>
       </div>
       <p>
         <label>
-          <input type="checkbox" />
+          <input type="checkbox"
+          v-model="agree" />
           <span>I agree with the rules</span>
         </label>
       </p>
@@ -34,8 +45,43 @@
 
       <p class="center">
         Already have an account?
-        <a href="/">Sign In!</a>
+        <router-link to="/login">Sign In!</router-link>
       </p>
     </div>
   </form>
 </template>
+
+<script>
+import { email, required, minLength } from 'vuelidate/lib/validators'
+export default {
+  name: 'register',
+  data: () => ({
+    email: '',
+    password: '',
+    name: '',
+    agree: false
+  }),
+  validations: {
+    email: { email, required },
+    password: { required, minLength: minLength(6) },
+    name: { required },
+    agree: { checked: v => v }
+  },
+  methods: {
+    submitHandler () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        return
+      }
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+        name: this.name
+      }
+      console.log(formData)
+      this.$router.push('/')
+    }
+  }
+}
+</script>
