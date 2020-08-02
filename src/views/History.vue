@@ -34,6 +34,11 @@ import {Pie} from 'vue-chartjs'
 
 export default {
   name: 'history',
+   metaInfo() {
+    return {
+      title: this.$title('History')
+    }
+  },
   extends: Pie,
   mixins: [PaginationMixin],
   data: () => ({
@@ -54,7 +59,7 @@ export default {
           ...record,
           categoryName: categories.find(c => c.id === record.categoryID).title,
           typeClass: record.type === 'income' ? 'green' : 'red',
-          typeText: record.type === 'income' ? 'Income' : 'Outcome',
+          typeText: record.type === 'income' ? 'Income' : 'Expense',
         }
       }))
 
@@ -62,10 +67,10 @@ export default {
       this.renderChart({
         labels: categories.map(c => c.title),
         datasets: [{
-            label: 'Outcomes by categories',
+            label: 'Expenses by categories',
             data: categories.map(c => {
               return this.records.reduce((total, r) => {
-                if (r.categoryID === c.id && r.type === 'outcome') {
+                if (r.categoryID === c.id && r.type === 'expense') {
                   total += +r.amount
                 }
                 return total

@@ -33,6 +33,11 @@ import currencyFilter from '@/filters/currency.filter'
 
 export default {
   name: 'planning',
+   metaInfo() {
+    return {
+      title: this.$title('Planning')
+    }
+  },
   data: () => ({
     loading: true,
     categories: []
@@ -46,7 +51,7 @@ export default {
 
     this.categories = categories.map(category => {
       const spend = records.filter(r => r.categoryID === category.id)
-      .filter(r => r.type === 'outcome')
+      .filter(r => r.type === 'expense')
       .reduce((total, record) => {
         return total += +record.amount
       }, 0)

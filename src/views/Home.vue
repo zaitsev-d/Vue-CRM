@@ -3,7 +3,7 @@
     <div class="page-title">
       <h3>Account</h3>
 
-      <button class="btn waves-effect waves-light btn-small" @click="refresh">
+      <button class="btn waves-effect waves-light btn-small" v-tooltip="'Refresh'" @click="refresh">
         <i class="material-icons">refresh</i>
       </button>
     </div>
@@ -23,8 +23,14 @@
 <script>
 import Bill from '@/components/Bill'
 import Currency from '@/components/Currency'
+
 export default {
   name: 'home',
+  metaInfo() {
+    return {
+      title: this.$title('Home')
+    }
+  },
   data: () => ({
     loading: true,
     currency: null

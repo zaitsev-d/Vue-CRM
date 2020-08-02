@@ -23,6 +23,11 @@ import Edit  from '@/components/category/Edit'
 
 export default {
   name: 'categories',
+   metaInfo() {
+    return {
+      title: this.$title('Categories')
+    }
+  },
   data: () => ({
     categories: [],
     loading: true,

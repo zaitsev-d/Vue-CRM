@@ -4,12 +4,12 @@
     <div v-else-if="record">
       <div class="breadcrumb-wrap">
         <router-link to="/history" class="breadcrumb">History</router-link>
-        <a @click.prevent class="breadcrumb">{{record.type === 'income' ? 'Income' : 'Outcome'}}</a>
+        <a @click.prevent class="breadcrumb">{{record.type === 'income' ? 'Income' : 'Expense'}}</a>
       </div>
       <div class="row">
         <div class="col s12 m6">
           <div class="card" :class="{
-            'red': record.type === 'outcome',
+            'red': record.type === 'expense',
             'green': record.type === 'income'
           }">
             <div class="card-content white-text">
@@ -31,6 +31,11 @@
 <script>
 export default {
   name: 'detail',
+   metaInfo() {
+    return {
+      title: this.$title('Details')
+    }
+  },
   data: () => ({
     record: null,
     loading: true

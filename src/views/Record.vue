@@ -30,8 +30,8 @@
       <p>
         <label>
           <input class="with-gap" name="type" type="radio" 
-          value="outcome" v-model="type"/>
-          <span>Outcome</span>
+          value="expense" v-model="type"/>
+          <span>Expense</span>
         </label>
       </p>
 
@@ -65,12 +65,17 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'record',
+   metaInfo() {
+    return {
+      title: this.$title('Record')
+    }
+  },
   data: () => ({
     loading: true,
     select: null,
     categories: [],
     category: null,
-    type: 'outcome',
+    type: 'expense',
     amount: 1,
     description: ''
   }),

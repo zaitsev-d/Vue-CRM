@@ -30,7 +30,7 @@
             </div>
 
             <button class="btn waves-effect waves-light" type="submit">
-              Refresh
+              Update
               <i class="material-icons right">send</i>
             </button>
           </form>
